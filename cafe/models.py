@@ -8,7 +8,8 @@ class Account(models.Model):
 class Menu(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
-    description = models.CharField()
+    description = models.TextField()
+    materials = models.models.IntegerField(primary_key=True)
 
 class Tables(models.Model):
     name = models.CharField(max_length=100)
@@ -22,8 +23,10 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_created=True)
 
 class Stroage(models.Model):
-    title = models.CharField
+    menu_id = models.ManyToOneRel(Menu)
+    material_title = models.CharField()
     remined_material = models.IntegerField()
     expire_date = models.DateField()
-    
-    
+        
+
+
