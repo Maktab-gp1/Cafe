@@ -23,3 +23,13 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'account/login.xhtml', {'form': form})
+
+
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def dashboard(request):
+    return render(request,
+                  'account/dashboard.xhtml',
+                  {'section': 'dashboard'})
