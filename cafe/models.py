@@ -22,7 +22,7 @@ class Tables(models.Model):
 class Reservation(models.Model):
     account_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     menu_id = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    table_id = models.ForeignKey(Tables, on_delete=models.SET_NULL )
+    table_id = models.ForeignKey(Tables, on_delete=models.SET_NULL ,null=True )
     created_at = models.DateTimeField(auto_created=True)
 
 
