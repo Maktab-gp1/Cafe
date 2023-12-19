@@ -5,12 +5,12 @@ from django.shortcuts import render
 
 def home(request):
     if request.method == "GET":
-        return render(request, 'src/home.html', context={})
+        return render(request, 'src/index.html', context={})
 
 
 def menu(request):
     if request.method == "GET":
-        return render(request, 'src/menu.html', context={})
+        return render(request, 'src/menu1.html', context={})
 
 
 def checkout(request):
@@ -23,6 +23,11 @@ def cart(request):
         return render(request, 'src/cart.html', context={})
 
 
+def about(request):
+    if request.method == "GET":
+        return render(request, 'src/about.html', context={})
+
+
 def staff(request):
     if request.method == "GET":
-        return render(request, 'src/staff.html', context={})
+        return render(request, 'src/team.html', context={})
