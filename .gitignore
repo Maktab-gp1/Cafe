@@ -6,3 +6,5 @@ CafeShop/__pycache__/
 auth_app/migrations/__pycache__/
 cafe/migrations/__pycache__/
 
+account/__pycache__/
+account/__pycache__/views.cpython-311.pyc
