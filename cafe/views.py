@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from .forms import ReservationCreation
 from .models import Menu, Reservation, Storage, Account
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
@@ -46,6 +48,7 @@ def service(request):
         return render(request, 'src/service.html', context={})
 
 
+@login_required
 def staff(request):
     if request.method == "GET":
         reserves = Reservation.objects.all()
