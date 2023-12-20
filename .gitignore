@@ -1,2 +1,8 @@
 .venv/
 venv/
+auth_app/__pycache__/
+cafe/__pycache__/
+CafeShop/__pycache__/
+auth_app/migrations/__pycache__/
+cafe/migrations/__pycache__/
+
