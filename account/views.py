@@ -11,6 +11,7 @@ def dashboard(request):
     return render(request,
                   'account/dashboard.html',
                   {})
+                  
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
