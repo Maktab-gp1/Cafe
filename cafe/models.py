@@ -1,5 +1,6 @@
 from django.db import models
-from moneyfield import MoneyField
+from django.urls import reverse
+
 # Create your models here.
 
 
@@ -10,8 +11,7 @@ class Account(models.Model):
 
 class Menu(models.Model):
     title = models.CharField(max_length=100)
-    price = models.MoneyField(
-        decimal_places=2, max_digits=8, currency_default='Rial')
+    price = models.IntegerField()
     description = models.TextField()
 
 
@@ -24,8 +24,12 @@ class Tables(models.Model):
 class Reservation(models.Model):
     account_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     menu_id = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    table_id = models.ForeignKey(Tables, null=True)
+    table_id = models.ForeignKey(Tables, null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_created=True)
+    # slug = models.SlugField(unique=True, null=True, blank=True)
+
+    # def get_absolute_url(self):
+    #     return reverse("book_detail", kwargs={"slug": self.slug})
 
 
 class Storage(models.Model):
