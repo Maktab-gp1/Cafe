@@ -1,9 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404
+from django.urls import reverse
 from django.views import View
-from .forms import ReservationCreation
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ReservationCreation
 from .models import Menu, Reservation, Storage, Account
 
 # Create your views here.
@@ -89,10 +90,16 @@ class booking(View):
 #             post.like.add(request.user.userprofile)
 #         return redirect(reverse("posts"))
     
-# class Confirm(View,LoginRequiredMixin):
-#     def post(self,request):
-#         reservation = get_object_or_404(Reservation)
-#         is_confirmed = reservation.is_confirmed.filter()
-#         if is_confirmed==False:
+class Confirm(View,LoginRequiredMixin):
+    def post(self,request):
+        print(request.POST)
+        reserv = get_object_or_404(Reservation,id=request.POST['id'])
+        if reserv.is_confirmed :
+            reserv.is_confirmed = False
+            reserv.save()
+        else :
+            reserv.is_confirmed = True
+            reserv.save()
+        return redirect(reverse("staff"))
+
         
-#             reservation
