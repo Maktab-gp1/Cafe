@@ -79,15 +79,15 @@ class booking(View):
         return render(request, 'src/booking.html', {})
 
 
-class Like(View,LoginRequiredMixin):
-    def post(self,request,slug):
-        post = get_object_or_404(Post,slug=slug)
-        is_liked = post.like.filter(id=request.user.userprofile.id)
-        if is_liked:
-            post.like.remove(request.user.userprofile)
-        else:
-            post.like.add(request.user.userprofile)
-        return redirect(reverse("posts"))
+# class Like(View,LoginRequiredMixin):
+#     def post(self,request,slug):
+#         post = get_object_or_404(Post,slug=slug)
+#         is_liked = post.like.filter(id=request.user.userprofile.id)
+#         if is_liked:
+#             post.like.remove(request.user.userprofile)
+#         else:
+#             post.like.add(request.user.userprofile)
+#         return redirect(reverse("posts"))
     
 # class Confirm(View,LoginRequiredMixin):
 #     def post(self,request):
