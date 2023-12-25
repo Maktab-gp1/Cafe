@@ -39,6 +39,8 @@ class Reservation(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse("book_detail", kwargs={"slug": self.slug})
+    # def __str__(self) -> str:
+    #     return self.id
 
 
 class Storage(models.Model):

@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views import View
 from .forms import ReservationCreation
-from .models import Menu, Reservation, Storage, Account
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView,DetailView,CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Menu, Reservation, Storage, Account
 
 # Create your views here.
 
@@ -48,13 +50,16 @@ def service(request):
         return render(request, 'src/service.html', context={})
 
 
-@login_required
-def staff(request):
-    if request.method == "GET":
-        reserves = Reservation.objects.all()
-        storage = Storage.objects.filter(remined_material__lte=10)
-        return render(request, 'src/staff.html', context={"reserves": reserves, "storage": storage})
+# @login_required
+# def staff(request):
+#     if request.method == "GET":
+#         reserves = Reservation.objects.all()
+#         storage = Storage.objects.filter(remined_material__lte=10)
+#         return render(request, 'src/staff.html', context={"reserves": reserves, "storage": storage})
 
+class StaffPanel(ListView,LoginRequiredMixin):
+    model = Reservation
+    template_name = 'src/staff.html'
 
 def testimonial(request):
     if request.method == "GET":
@@ -72,3 +77,22 @@ class booking(View):
 
     def post(self, request, slug):
         return render(request, 'src/booking.html', {})
+
+
+class Like(View,LoginRequiredMixin):
+    def post(self,request,slug):
+        post = get_object_or_404(Post,slug=slug)
+        is_liked = post.like.filter(id=request.user.userprofile.id)
+        if is_liked:
+            post.like.remove(request.user.userprofile)
+        else:
+            post.like.add(request.user.userprofile)
+        return redirect(reverse("posts"))
+    
+# class Confirm(View,LoginRequiredMixin):
+#     def post(self,request):
+#         reservation = get_object_or_404(Reservation)
+#         is_confirmed = reservation.is_confirmed.filter()
+#         if is_confirmed==False:
+        
+#             reservation

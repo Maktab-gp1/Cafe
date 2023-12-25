@@ -58,7 +58,7 @@
   </div>
   <!-- Navbar & Hero End -->
 
-  <div class="d-flex justify-content-center">
+  {% comment %} <div class="d-flex justify-content-center">
     <div class="m-2">
         <table class="table ">
             <thead>
@@ -80,7 +80,7 @@
                 {% endfor %}
             </tbody>
           </table>
-    </div>
+    </div> {% endcomment %}
     <div class="m-2">
         <table class="table table-dark table-striped">
             <thead>
@@ -88,16 +88,34 @@
                 <th scope="col">#</th>
                 <th scope="col">Username</th>
                 <th scope="col">Table</th>
+                <th scope="col">Orders</th>
                 <th scope="col">Time</th>
+                <th scope="col">Conformation</th>
               </tr>
             </thead>
             <tbody>
-                {% for table in reserves %}
+                {% for reserve in object_list %}
                 <tr>
-                    <th scope="row">{{table.id}}</th>
-                    <td>{{table.account_id.name}}</td>
-                    <td>{{table.table_id.name}}</td>
-                    <td>@{{table.created_at}}</td>
+                    <th scope="row">{{reserve.id}}</th>
+                    <td>{{reserve.account_id.name}}</td>
+                    <td>{{reserve.table_id.name}}</td>
+                    <td><ul>{% for item in reserve.menu_id.all %}
+                    <li>{{item}}</li>
+                    {% endfor %} 
+                    </ul>
+                     
+                    </td>
+                    <td>{{reserve.created_at}}</td>
+                    <td>
+                    {% if reserve.is_confirmed  %}
+                        <span>Confirmed</span>
+                       {% else %}
+                        <input type="submit" value="confirm">
+                       
+                    {% endif %} 
+                       
+                    </td>
+                                           
                   </tr>
                 {% endfor %}
             </tbody>
