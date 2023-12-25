@@ -10,31 +10,41 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     if request.method == "GET":
         return render(request, 'src/index.html', context={})
+    # if request.method == "POST":
+    #     search = request.POST.get('form1')
+    #     print("*********************")
+    #     print(search)
+    #     return render(request, 'src/index.html', context={})
 
 
 def menu(request):
     if request.method == "GET":
         foods = Menu.objects.all()
         return render(request, 'src/menu1.html', context={"foods": foods})
+    if request.method == "POST":
+        search = request.POST.get('search')
+        print("*********************")
+        print(search)
+        foods = Menu.objects.filter(title__icontains=search)
+        return render(request, 'src/menu1.html', context={"foods": foods})
 
 
 def checkout(request):
     if request.method == "GET":
-        use = Account.objects.create(name='gust', phone='09101212121')
-        Account.save(use)
+        # use = Account.objects.create(name='gust', phone='09101212121')
+        # Account.save(use)
         foods = Reservation.objects.all()
         acc_id = Reservation.account_id
         # acc_id.name
-        # print(acc_id.name)
         request.session["user"] = 'gust'
         return render(request, 'src/checkout.html', context={"reserv": foods})
 
 
 def cart(request):
     if request.method == "GET":
-        print(request.session['user'])
         if 'user' in request.session:
             foods = Reservation.objects.all()
+        foods = None
         return render(request, 'src/cart.html', context={"foods": foods})
 
 
@@ -61,9 +71,14 @@ def testimonial(request):
         return render(request, 'src/testimonial.html', context={})
 
 
+def contact(request):
+    if request.method == "GET":
+        return render(request, 'src/contact.html', context={})
+
 # def booking(request):
 #     if request.method == "GET":
 #         return render(request, 'src/booking.html', context={})
+
 
 class booking(View):
     def get(self, request):
