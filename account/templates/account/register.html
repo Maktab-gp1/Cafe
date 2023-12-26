@@ -43,7 +43,7 @@
                         <div class="col-11 col-md-7 d-flex align-items-center">
                           <div class=" text-white animated slideInLeft">
                             <form method="post">
-                              {{ user_form.as_p }}
+                              {{ form.as_p }}
                               {% csrf_token %}
                               <input class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft" type="submit" value="Create my account">
                             </form>

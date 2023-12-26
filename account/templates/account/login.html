@@ -47,12 +47,12 @@
                       </p>
                     {% else %}
                       <p class="text-white animated slideInLeft mb-4 pb-2">Please, use the following form to log-in. 
-                        If you don't have an account <a href="{% url "register" %}">register here</a>.
+                        If you don't have an account <a href="{% url "signup" %}">register here</a>.
                       </p>
                     {% endif %}
                     <div class="col-md-6  d-flex align-items-center">
                       <div class=" text-white animated slideInLeft">
-                        <form action="{% url 'login' %}" method="post">
+                        <form method="post" novalidate>
                         {{ form.as_p }}
                         {% csrf_token %}
                         <input class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft" type="submit" value="Log in">
@@ -115,3 +115,5 @@
       <!-- Footer End -->
     
 {% endblock %}
+
+

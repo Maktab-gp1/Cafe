@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Custom user verify check middleware
+    'account.middleware.UserVerifyMiddleware',
 ]
 
 ROOT_URLCONF = 'CafeShop.urls'
@@ -75,18 +77,25 @@ WSGI_APPLICATION = 'CafeShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'cafeshop',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
+#         'HOST': '5.34.202.240',
+#         'PORT': '5432',
+#     }
+# }
+# Database
+
 DATABASES = {
     'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cafeshop',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': '5.34.202.240',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -116,6 +125,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 
@@ -134,8 +145,18 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'account.CustomUser'
 
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = 'main'
+
+# AUTH BACKENDS
+AUTHENTICATION_BACKENDS = [
+    #'django.contrib.auth.backends.ModelBackend',
+    'account.backend.CustomBackend',
+]
+
+
+# LOGIN_REDIRECT_URL = 'dashboard'
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

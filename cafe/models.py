@@ -23,7 +23,7 @@ class Menu(models.Model):
 class Tables(models.Model):
     name = models.CharField(max_length=100)
     capacity = models.IntegerField()
-    url = models.CharField()
+    url = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return self.name
@@ -45,7 +45,7 @@ class Reservation(models.Model):
 
 
 class Storage(models.Model):
-    material_title = models.CharField()
+    material_title = models.CharField(max_length=100)
     remined_material = models.IntegerField()
     expire_date = models.DateField()
 
