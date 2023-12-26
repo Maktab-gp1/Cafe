@@ -31,10 +31,11 @@ class Tables(models.Model):
 
 class Reservation(models.Model):
     account_id = models.ForeignKey(Account, on_delete=models.CASCADE)
-    menu_id = models.ManyToManyField(Menu)
-    table_id = models.ForeignKey(Tables, on_delete=models.SET_NULL , null = True)
+    menu= models.ManyToManyField(Menu)
+    table = models.ForeignKey(Tables, on_delete=models.SET_NULL , null = True)
     created_at = models.DateTimeField(auto_created=True)
     is_confirmed = models.BooleanField(default=False)
+    reserved_time = models.DateTimeField()
     # slug = models.SlugField(unique=True, null=True, blank=True)
 
     # def get_absolute_url(self):

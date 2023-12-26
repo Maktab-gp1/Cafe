@@ -38,7 +38,7 @@
                   </div>
                   <a href="contact" class="nav-item nav-link">Contact</a>
               </div>
-              <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+              <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4">Log out</a>
           </div>
       </nav>
 
@@ -61,9 +61,9 @@
                     {% for reserve in object_list %}
                     <tr>
                         <th scope="row">{{reserve.id}}</th>
-                        <td>{{reserve.account_i.d.name}}</td>
-                        <td>{{reserve.table_id.name}}</td>
-                        <td><ul>{% for item in reserve.menu_id.all %}
+                        <td>{{reserve.account_id.name}}</td>
+                        <td>{{reserve.table.name}}</td>
+                        <td><ul>{% for item in reserve.menu.all %}
                         <li>{{item}}</li>
                         {% endfor %} 
                         </ul>
@@ -73,11 +73,11 @@
                         <td>
                         <form action="{% url 'confirm' %}" method="post" >
                             {% csrf_token %}
-                            {% comment %} {{%reserve.id %}} {% endcomment %}
+                            
                         {% if reserve.is_confirmed  %}
                             <input type="hidden" name="id" value={{reserve.id}}>
                             <input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Confuse">
-                           {% else %}
+                        {% else %}
                             <input type="hidden" name="id" value={{reserve.id}}>
                             <input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Confirm">
                         {% endif %} 
@@ -88,16 +88,6 @@
                     {% endfor %}
                 </tbody>
               </table>
-              {% comment %} <div class="row align-items-center g-5">
-                  <div class="col-lg-6 text-center text-lg-start">
-                      <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
-                      <p class="text-white animated slideInLeft mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                      <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
-                  </div>
-                  <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                      <img class="img-fluid" src="static/img/coffee-cup-and-plate-vector-24492235-removebg-preview.png" alt="">
-                  </div>
-              </div> {% endcomment %}
           </div>
       </div>
   </div>
