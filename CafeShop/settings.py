@@ -148,15 +148,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'account.CustomUser'
 
 LOGIN_REDIRECT_URL = 'main'
+# LOGOUT_REDIRECT_URL = 'login'
 
 # AUTH BACKENDS
 AUTHENTICATION_BACKENDS = [
-    #'django.contrib.auth.backends.ModelBackend',
     'account.backend.CustomBackend',
 ]
 
 
-# LOGIN_REDIRECT_URL = 'dashboard'
-# LOGIN_URL = 'login'
-# LOGOUT_URL = 'logout'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
