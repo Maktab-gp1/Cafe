@@ -20,13 +20,14 @@ def home(request):
 def menu(request):
     if request.method == "GET":
         # request.session.clear()
-        foods = Menu.objects.all()
+        foods = Menu.objects.filter(category='lunch')
+        foods_d = Menu.objects.filter(category='dinner')
         for food in foods:
             request.session[food.title] = 0
-        return render(request, 'src/menu1.html', context={"foods": foods})
+        return render(request, 'src/menu1.html', context={"foods": foods, 'foods_d': foods_d})
     if request.method == "POST":
         count = {}
-        foods = Menu.objects.all()
+        # foods = Menu.objects.all()
         foods = Menu.objects.filter(category='lunch')
         search = request.POST.get('search')
         for food in foods:
@@ -42,11 +43,11 @@ def menu(request):
                     pass
                 else:
                     request.session[food.title] = 0
-            print("*********************")
-            print(food.title)
-            print(request.session[f"{food.title}_price"])
-            print(request.session[food.title])
-            print(count)
+            # print("*********************")
+            # print(food.title)
+            # print(request.session[f"{food.title}_price"])
+            # print(request.session[food.title])
+            # print(count)
         # print(data)
         if search is not None:
             foods = Menu.objects.filter(title__icontains=search)
