@@ -3,7 +3,7 @@ from django.views import View
 from .forms import ReservationCreation
 from .models import Menu, Reservation, Storage, Account
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 # Create your views here.
 
 
@@ -19,33 +19,65 @@ def home(request):
 
 def menu(request):
     if request.method == "GET":
+        # request.session.clear()
         foods = Menu.objects.all()
+        for food in foods:
+            request.session[food.title] = 0
         return render(request, 'src/menu1.html', context={"foods": foods})
     if request.method == "POST":
+        count = {}
+        foods = Menu.objects.all()
+        foods = Menu.objects.filter(category='lunch')
         search = request.POST.get('search')
-        print("*********************")
-        print(search)
-        foods = Menu.objects.filter(title__icontains=search)
-        return render(request, 'src/menu1.html', context={"foods": foods})
+        for food in foods:
+            counter = request.POST.get(food.title)
+            price = food.price
+
+            if counter is not None:
+                request.session[food.title] = counter
+                count[food.title] = counter
+                request.session[f"{food.title}_price"] = price * int(counter)
+            else:
+                if int(request.session[food.title]) >= 0:
+                    pass
+                else:
+                    request.session[food.title] = 0
+            print("*********************")
+            print(food.title)
+            print(request.session[f"{food.title}_price"])
+            print(request.session[food.title])
+            print(count)
+        # print(data)
+        if search is not None:
+            foods = Menu.objects.filter(title__icontains=search)
+        return render(request, 'src/menu1.html', context={"foods": foods, 'count': count})
 
 
 def checkout(request):
     if request.method == "GET":
-        # use = Account.objects.create(name='gust', phone='09101212121')
-        # Account.save(use)
-        foods = Reservation.objects.all()
-        acc_id = Reservation.account_id
-        # acc_id.name
-        request.session["user"] = 'gust'
-        return render(request, 'src/checkout.html', context={"reserv": foods})
+        names = []
+        totall_price = 0
+        foods = Menu.objects.all()
+        for food in foods:
+            if request.session[food.title] != 0:
+                totall_price += request.session[f"{food.title}_price"]
+                names.append(food.title)
+        reserv = Menu.objects.filter(title__in=names)
+        return render(request, 'src/checkout.html', context={"reserv": reserv, 'price': totall_price})
 
 
 def cart(request):
     if request.method == "GET":
-        if 'user' in request.session:
-            foods = Reservation.objects.all()
-        foods = None
-        return render(request, 'src/cart.html', context={"foods": foods})
+        names = []
+        totall_price = 0
+        foods = Menu.objects.all()
+        for food in foods:
+            if request.session[food.title] != 0:
+                totall_price += request.session[f"{food.title}_price"]
+                names.append(food.title)
+        reserv = Menu.objects.filter(title__in=names)
+        # Reservation.objects.create()
+        return render(request, 'src/cart.html', context={"foods": reserv, 'price': totall_price})
 
 
 def about(request):

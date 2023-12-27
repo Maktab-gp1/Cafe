@@ -64,16 +64,16 @@
       <div class="d-flex align-items-center">
           <img class="flex-shrink-0 img-fluid rounded" src="static/img/menu-1.jpg" alt="" style="width: 80px;">
           <div class="w-100 d-flex flex-column text-start ps-4">
-              <h5 class="d-flex justify-content-between border-bottom pb-2">
-                  <span>{{food.menu_id.title}}</span>
-                  <span class="text-primary">${{food.menu_id.price}}</span>
-              </h5>
-              <small class="fst-italic">{{food.menu_id.description}}</small>
-          </div>
+            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>{{food.title}}</span>
+                <span class="text-primary">${{food.price}}</span>
+            </h5>
+            <small class="fst-italic">{{food.description}}</small>
+        </div>
       </div>
   </div>
     {% endfor %}
-    <div class="col-lg-6">
+    <!-- <div class="col-lg-6">
         <div class="d-flex align-items-center">
             <img class="flex-shrink-0 img-fluid rounded" src="static/img/menu-1.jpg" alt="" style="width: 80px;">
             <div class="w-100 d-flex flex-column text-start ps-4">
@@ -168,7 +168,7 @@
                 <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 
@@ -229,7 +229,7 @@
                           </button>     </div></div> -->
     </div>
     <div class="d-flex justify-content-center my-5">
-      <div class="mx-3">totall price$</div>
+      <div class="mx-3">{{price}}$</div>
       <div><a href="cart" class="btn btn-primary py-2 px-4">next</a></div>
     </div>
       {% endblock content %}

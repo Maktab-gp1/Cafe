@@ -107,7 +107,7 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="tab-content">
+                    <div class="tab-content" id="menu">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
                                 {% for food in foods %}
@@ -120,11 +120,49 @@
                                                 <span class="text-primary">${{food.price}}</span>
                                             </h5>
                                             <small class="fst-italic">{{food.description}}</small>
+                                            {% for j,k in count.items  %}
+                                                {% if j == food.title %}
+                                                    <span class="text-primary">{{k}}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <span class="text-primary">{{count.all}}</span>
                                         </div>
+                                        <!-- <div class="number">
+                                            <span name="{{ forloop.counter }}" class="minus">-</span>
+                                            <input name="{{ forloop.counter }}" type="text" value="1"/>
+                                            <span name="{{ forloop.counter }}" class="plus">+</span>
+                                        </div> -->
+                                        
+                                        <div class="qty mt-5">
+                                            <span  class="minus bg-dark">-</span>
+                                            <form name="counter" action="#menu" method="post">
+                                                {% csrf_token %}
+                                                <input type="number" class="counter" name="{{food.title}}" value="0">
+                                            </form>
+                                            <span class="plus bg-dark">+</span>
+                                        </div>
+                                        <!-- <div class="input-group">
+                                            <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                                            <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                            </span>
+                                            <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
+                                            <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                            </span>
+                                          </div> -->
                                     </div>
                                 </div>
                                     {% endfor %}
-                                <div class="col-lg-6">
+                                    <!-- <form name="counter" action="" method="post">
+                                        {% csrf_token %}
+                                        
+                                        <button type="submit" formmethod="post">Submit using POST</button>
+                                    </form> -->
+                                <!-- <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid rounded" src="img/menu-2.jpg" alt="" style="width: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
@@ -134,6 +172,7 @@
                                             </h5>
                                             <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -407,7 +446,7 @@
                                             <small class="fst-italic">Ipsum ipsum clita erat amet dolor justo diam</small>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
