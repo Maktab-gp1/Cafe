@@ -3,8 +3,8 @@ from django.urls import reverse
 
 
 class Account(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=11)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=11, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -21,9 +21,9 @@ class Menu(models.Model):
 
 
 class Tables(models.Model):
-    name = models.CharField(max_length=100)
-    capacity = models.IntegerField()
-    url = models.CharField()
+    name = models.CharField(max_length=100, null=True, blank=True)
+    capacity = models.IntegerField(null=True, blank=True)
+    url = models.CharField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name

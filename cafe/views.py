@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views import View
 from .forms import ReservationCreation
-from .models import Menu, Reservation, Storage, Account
+from .models import Menu, Reservation, Storage, Account, Tables
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from datetime import datetime
 # Create your views here.
 
 
@@ -88,7 +89,16 @@ def cart(request):
                 # print(request.session[f"{food.title}_price"])
                 names.append(food.title)
         reserv = Menu.objects.filter(title__in=names)
-        # Reservation.objects.create()
+        # account = Account(name='guest')
+        # account.save()
+        # table = Tables(pk=1)
+        # table.save()
+        # reserving = Reservation.objects.create(
+        #     account_id=account, table=table, reserved_time=datetime.now(), created_at=datetime.now())
+        # reserving.save()
+        # for i in reserv:
+        #     reserving.menu.add(i)
+        #     reserving.save()
         return render(request, 'src/cart.html', context={"foods": reserv, 'price': totall_price})
 
 
