@@ -20,34 +20,36 @@ def home(request):
 def menu(request):
     if request.method == "GET":
         # request.session.clear()
+        all = Menu.objects.all()
         foods = Menu.objects.filter(category='lunch')
         foods_d = Menu.objects.filter(category='dinner')
-        for food in foods:
+        for food in all:
             request.session[food.title] = 0
         return render(request, 'src/menu1.html', context={"foods": foods, 'foods_d': foods_d})
     if request.method == "POST":
         count = {}
         # foods = Menu.objects.all()
-        foods = Menu.objects.filter(category='lunch')
+        foods = Menu.objects.all()
         search = request.POST.get('search')
         for food in foods:
             counter = request.POST.get(food.title)
-            price = food.price
-
+            # price = food.price
             if counter is not None:
                 request.session[food.title] = counter
                 count[food.title] = counter
-                request.session[f"{food.title}_price"] = price * int(counter)
+                # request.session[f"{food.title}_price"] = price * int(counter)
             else:
-                if int(request.session[food.title]) >= 0:
+                if int(request.session[food.title]) > 0:
                     pass
                 else:
                     request.session[food.title] = 0
-            # print("*********************")
-            # print(food.title)
+            if request.session[food.title] == 0:
+                del request.session[food.title]
+            print("*********************")
+            print(food.title)
             # print(request.session[f"{food.title}_price"])
-            # print(request.session[food.title])
-            # print(count)
+            print(request.session[food.title])
+            print(count)
         # print(data)
         if search is not None:
             foods = Menu.objects.filter(title__icontains=search)
@@ -60,8 +62,12 @@ def checkout(request):
         totall_price = 0
         foods = Menu.objects.all()
         for food in foods:
-            if request.session[food.title] != 0:
-                totall_price += request.session[f"{food.title}_price"]
+            # if request.session[food.title] == '0':
+            #     del request.session[food.title]
+            if request.session[food.title] != '0':
+                totall_price += int(food.price) * \
+                    int(request.session[food.title])
+                # print(request.session[f"{food.title}_price"])
                 names.append(food.title)
         reserv = Menu.objects.filter(title__in=names)
         return render(request, 'src/checkout.html', context={"reserv": reserv, 'price': totall_price})
@@ -69,12 +75,17 @@ def checkout(request):
 
 def cart(request):
     if request.method == "GET":
+        print(request.session.items())
         names = []
         totall_price = 0
         foods = Menu.objects.all()
         for food in foods:
-            if request.session[food.title] != 0:
-                totall_price += request.session[f"{food.title}_price"]
+            # if request.session[food.title] == '0':
+            #     del request.session[food.title]
+            if request.session[food.title] != '0':
+                totall_price += int(food.price) * \
+                    int(request.session[food.title])
+                # print(request.session[f"{food.title}_price"])
                 names.append(food.title)
         reserv = Menu.objects.filter(title__in=names)
         # Reservation.objects.create()
