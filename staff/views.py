@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic.edit import UpdateView ,CreateView ,FormView
 from django.views.generic import ListView
 from django.http import Http404
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order,OrderItem
 from shop.models import Category , Product
@@ -16,12 +17,19 @@ class StaffPanel(LoginRequiredMixin,ListView):
     template_name = 'staff/dashboard.html'
     form_class= StatusFormSet
     login_url = reverse_lazy('login')
+
     def get_queryset(self, *args, **kwargs): 
-        qs = super(StaffPanel, self).get_queryset(*args, **kwargs) 
-        qs = qs.order_by("-id").reverse() 
-        return qs
+        if self.request.GET.get('search') :
+            filter = self.request.GET['search']
+            return Order.objects.filter(
+                                         Q(phone__icontains=filter)| 
+                                        
+                                         Q(created__icontains=filter)|
+                                         Q(status__icontains=filter))
+        return Order.objects.all()
+        
     def get_status_initial(self):
-        orders = self.get_queryset()
+        orders = Order.objects.all()
         initial = [{'status': order.status } for order in orders]
         return initial
     def get_context_data(self, **kwargs) :
