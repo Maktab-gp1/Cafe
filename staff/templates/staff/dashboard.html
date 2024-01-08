@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container-xxl bg-white p-0">
+  <!-- Spinner Start -->
+  <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Loading...</span>
+      </div>
+  </div>
+  <!-- Spinner End -->
+
+    
+  <!-- Navbar & Hero Start -->
+  <div class="container-xxl position-relative p-0 ">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+          <a href="" class="navbar-brand p-0">
+              <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+              <!-- <img src="img/logo.png" alt="Logo"> -->
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="fa fa-bars"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav ms-auto py-0 pe-4">
+                  <a href={% url "shop:homeview"  %} class="nav-item nav-link active">Home</a>
+                  <a href={% url 'createcategory'  %} class="nav-item nav-link">New Category</a>
+
+                  <a href={% url "shop:homeview"  %} class="nav-item nav-link">Menu</a>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Create</a>
+                      <div class="dropdown-menu m-0">
+                          <a href="{% url 'createcategory'  %}" class="dropdown-item">New Category</a>
+                          <a href="team" class="dropdown-item">New Product</a>
+                          <a class="dropdown-item">Coming Soon..</a>
+                      </div>
+                  </div>
+                  <a href="contact" class="nav-item nav-link">Welcome, {{request.user}} </a>
+              </div>
+              <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4">Log out</a>
+          </div>
+      </nav>
+
+      <div class="container-xxl py-5 bg-dark  mb-5">
+
+        
+          <div class="container my-5 py-5">
+            <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Table</th>
+                    <th scope="col">created</th>
+                    <th scope="col">Orders</th>
+                    <th scope="col">Updated</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                    
+                    {% for order in object_list %}
+                    <tr>
+
+                        <th scope="row"><a href="{{order.get_absolute_url }}">{{order.id}}</a></th>
+                        <td>{{order.phone}}</td>
+                        <td>{{order.table}}</td>
+                        <td>{{order.created}}</td>
+                        <td><ul>{% for item in order.items.all %}
+                        <li>{{item.product}} x{{item.quantity}}</li>
+                        {% endfor %} 
+                        </ul> 
+                         
+                        </td>
+                        <td>{{order.updated}}</td>
+                        
+                        <td>
+                        {{order.status}}
+                        {{status.form.status}}
+                        <form action="{% url 'dashboard' %}" method="post"  >
+                            
+                            
+                                {{ status.management_form }}
+                                {% csrf_token %}
+                                {{form}}
+                                <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
+
+                        </form> 
+                        </td>   
+                        {% comment %} <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>                       
+                    {% endfor %} 
+                         {% for form  in status  %}
+                            <th>
+                            <form action="{% url 'dashboard' %}" method="post"  >
+                            
+                            
+                                {{ status.management_form }}
+                                {% csrf_token %}
+                                {{form}}
+                                <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
+
+                            </form> {% endcomment %}
+                            </th>
+                        {% endfor %} 
+                    </tr>
+                    
+                </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  <!-- Navbar & Hero End -->
+
+    <div class="container-xxl position-relative p-0 ">
+        <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Menu Items</h4>
+                        {% for product in products %}
+                        <a class="btn btn-link" href={% url "updateitem" pk=product.pk %}>{{product.name}}</a>
+                       
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Categories</h4>
+                        {% for category in categories %}
+                        <a class="btn btn-link" href={% url "categoriesview" pk=category.pk %}>{{category.name}}</a>
+                       
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div> 
+    </div>
+  </div>
+
+                   
+      {% endblock content %}
