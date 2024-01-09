@@ -1,10 +1,12 @@
 from typing import Any
-from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.urls import reverse , reverse_lazy
+from django.shortcuts import render, get_object_or_404 , redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Category, Product
 from cart.forms import CartAddProductForm
 from django.views.generic import ListView ,DetailView
+from cart.cart import Cart
+
 
 # Create your views here.
 
@@ -28,13 +30,19 @@ class ProductListView(ListView):
                 return Product.objects.filter(category = self.category,available=True , name__icontains=self.request.GET['search'] )
             return Product.objects.filter(available=True,category = self.category)
     def post(self, request, *args, **kwargs):
-        # print(self.request.POST)
-        override = (self.request.POST['override'])
-        quantity =self.request.POST['quantity']
-        form = CartAddProductForm(quantity,override)
-        # if form.is_valid():
-            # <process form cleaned data>
-        return reverse('cart:cart_add')    
+        print(self.request.POST)
+        cart = Cart(request)
+        product = get_object_or_404(Product,id =self.request.POST['product_id'])
+        # override = (self.request.POST['override'])
+        # quantity =self.request.POST['quantity']
+        form = CartAddProductForm(request.POST)
+        print(form)
+        if form.is_valid():   
+            cd = form.cleaned_data
+            cart.add(product=product,
+                    quantity=cd['quantity'],
+                    override_quantity=cd['override'])
+        return redirect('cart:cart_detail')    
             
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

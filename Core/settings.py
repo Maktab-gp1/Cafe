@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'multiforloop',
+    # 'multiforloop',
     'shop.apps.ShopConfig',
     'cafe.apps.CafeConfig',
     'cart.apps.CartConfig',
