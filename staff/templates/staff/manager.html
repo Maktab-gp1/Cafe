@@ -43,24 +43,52 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
+
+
+
+
+
+<div class="d-flex justify-content-center p-1">
+    <div id="chartContainertime" style="width: 40%; height: 360px"></div>
+    <div id="chartContainer" style="width: 40%; height: 360px"></div>
+</div>
+
 <script type="text/javascript">
-  window.onload = function () {
-      var chart = new CanvasJS.Chart("chartContainer", {
-          animationEnabled: true, // change to false
-          title:{
-              text: "Most sale products"
-          },
-          axisY: {
-                        title: "Elevation (in count)",
-                    },
-          data: [{
-            type: "column",
-            yValueFormatString: "#,##0 ",
-            dataPoints: {{ mountain_elevation_data|safe }}
-        }]
-      });
-      chart.render();
-  }
-</script>
-<div id="chartContainer" style="width: 50%; height: 360px"></div>
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true, // change to false
+            title:{
+                text: "Most sale products"
+            },
+            axisY: {
+                          title: "Elevation (in count)",
+                      },
+            data: [{
+              type: "column",
+              yValueFormatString: "#,##0 ",
+              dataPoints: {{ mountain_elevation_data|safe }}
+          }]
+        });
+        chart.render();
+    }
+  </script>
+  <!-- <script type="text/javascript">
+    window.onload = function () {
+        var chart_time = new CanvasJS.Chart("chartContainertime", {
+            animationEnabled: true, // change to false
+            title:{
+                text: "Peak time"
+            },
+            axisY: {
+                          title: "orders (in count)",
+                      },
+            data: [{
+              type: "spline",
+              yValueFormatString: "#,##0 ",
+              dataPoints: {{ mountain_elevation_data_time|safe }}
+          }]
+        });
+        chart_time.render();
+    }
+  </script> -->
  {% endblock content %}
