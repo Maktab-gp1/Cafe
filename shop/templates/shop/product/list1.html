@@ -99,7 +99,7 @@
                                 {% for product in object_list %}
                                     <div class="col-lg-6">
                                     <div class="d-flex align-products-center">
-                                        <a href="{{ product.get_absolute_url }}">
+                                        
                                         <img class="flex-shrink-0 img-fluid rounded" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="" style="width: 80px;">
                                         </a>
                                         <div class="w-100 d-flex flex-column text-start ps-4">
