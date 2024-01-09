@@ -23,7 +23,6 @@ class StaffPanel(LoginRequiredMixin,ListView):
             filter = self.request.GET['search']
             return Order.objects.filter(
                                          Q(phone__icontains=filter)| 
-                                        
                                          Q(created__icontains=filter)|
                                          Q(status__icontains=filter))
         return Order.objects.all()
@@ -32,6 +31,7 @@ class StaffPanel(LoginRequiredMixin,ListView):
         orders = Order.objects.all()
         initial = [{'status': order.status } for order in orders]
         return initial
+    
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
         context["products"] = Product.objects.all()
@@ -40,6 +40,7 @@ class StaffPanel(LoginRequiredMixin,ListView):
         context["status"] = formset
         print(context)
         return context
+    
     def post(self,request):
         formset = StatusFormSet(self.request.POST)
         if formset.is_valid():

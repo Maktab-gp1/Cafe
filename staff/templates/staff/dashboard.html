@@ -36,29 +36,29 @@
                           <a class="dropdown-item">Coming Soon..</a>
                       </div>
                   </div>
-                  <a href="contact" class="nav-item nav-link">Welcome, {{request.user}} </a>
+                  <a href="contact" class="nav-item nav-link">Welcome, {{request.user.first_name}} </a>
               </div>
               <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4">Log out</a>
           </div>
       </nav>
 
       <div class="container-xxl py-5 bg-dark  mb-5">
-      <div class="container my-5 py-5">
-             <div class="input-group d-flex justify-content-center mb-5">
+            <div class="container my-3 py-5">
+             <div class="input-group  justify-content-left mb-0">
                         
-                        <div class="form-outline" data-mdb-input-init>
-                            <form action="" method="get">
+                        <div class="" data-mdb-input-init>
+                            <form action="" method="get" class="input-group  justify-content-left mb-5">
                                 
-                            <input type="search" name="search" class="form-control" placeholder="Search" />
-                            <button type="button" class="btn btn-primary" data-mdb-ripple-init>
-                                <i class="fas fa-search"></i>
-                            </button></div>
+                            <input type="search" name="search" class="form-control" placeholder="Filter by phone,date or status" />
+
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            
                         </form></div>
                         <div>
                     </div>
                 </div>
         
-          <div class="container my-5 py-5">
+          <div class="container my-2 py-2">
             <table class="table table-dark table-striped">
                 <thead>
                   <tr>
@@ -91,13 +91,13 @@
                         
                         <td>
                         {{order.status}}
-                        {{status.form.status}}
+                        
                         <form action="{% url 'dashboard' %}" method="post"  >
-                            
                             
                                 {{ status.management_form }}
                                 {% csrf_token %}
-                                {{form}}
+                            {{status.form.status}}
+                                
                                 <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
 
                         </form> 
