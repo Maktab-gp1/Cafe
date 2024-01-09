@@ -4,7 +4,8 @@ from django.shortcuts import render, get_object_or_404 , redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Category, Product
 from cart.forms import CartAddProductForm
-from django.views.generic import ListView ,DetailView
+from django.views import View
+from django.views.generic import ListView ,DetailView , TemplateView
 from cart.cart import Cart
 
 
@@ -50,6 +51,8 @@ class ProductListView(ListView):
         context["form"] =  CartAddProductForm()
         return context            
 
+class HomeView(TemplateView):
+    template_name="shop/index.html"
 
 
     

@@ -1,0 +1,69 @@
+{% if request.user.is_authenticated %}
+
+ 
+
+    
+  <!-- Navbar & Hero Start -->
+  <div class="container-xxl position-relative p-0 ">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+          <a href={% url "dashboard"  %} class="navbar-brand p-0">
+              <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Staff Panel</h1>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="fa fa-bars"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav ms-auto py-0 pe-4">
+                  <a href={% url "dashboard"  %} class="nav-item nav-link active">Dashboard</a>
+                  <a href={% url "shop:productlist" 'all' %} class="nav-item nav-link">Menu</a>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Create</a>
+                      <div class="dropdown-menu m-0">
+                          <a href="{% url 'createcategory'  %}" class="dropdown-item">New Category</a>
+                          <a href={% url 'newitem'  %} class="dropdown-item">New Product</a>
+                          <a class="dropdown-item">Coming Soon..</a>
+                      </div>
+                  </div>
+                  <a href="contact" class="nav-item nav-link">Welcome, {{request.user.first_name}} </a>
+              </div>
+              <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4">Log out</a>
+          </div>
+      </nav>
+
+{% else %}
+
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                <a href={% url 'shop:homeview' %} class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                    
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0 pe-4">
+                        <a href={% url 'shop:homeview' %}  class="nav-item nav-link active">Home</a>
+                        <a href="about" class="nav-item nav-link">About</a>
+                        <a href="service" class="nav-item nav-link">Service</a>
+                        <a href={% url "shop:productlist" 'all' %} class="nav-item nav-link">Menu</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="booking" class="dropdown-item">Booking</a>
+                                <a href="staff" class="dropdown-item">Our Team</a>
+                                <a href="testi" class="dropdown-item">Testimonial</a>
+                            </div>
+                        </div>
+                        <a href="contact" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <a href={% url "shop:productlist" 'all' %} class="btn btn-primary py-2 px-4">Place Order</a>
+                    <a href={% url 'cart:cart_detail' %} class="nav-item nav-link active mt-4"> <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i></a>
+                </div>
+            </nav>
+
+{% endif %}
+
+
+
+

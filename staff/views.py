@@ -1,14 +1,14 @@
 from typing import Any
-from django.shortcuts import render , redirect ,get_object_or_404
-from django.urls import reverse ,reverse_lazy
+from django.shortcuts import render ,get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.edit import UpdateView ,CreateView ,FormView
+from django.views.generic.edit import UpdateView ,CreateView 
 from django.views.generic import ListView
-from django.http import Http404
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order,OrderItem
 from shop.models import Category , Product
+from .mixin import OrderFieldsMixin,OrderItemFormValidMixin
 from .forms import  OrderItemStaffFormSet , StatusForm ,StatusFormSet
   
   
@@ -24,8 +24,8 @@ class StaffPanel(LoginRequiredMixin,ListView):
             return Order.objects.filter(
                                          Q(phone__icontains=filter)| 
                                          Q(created__icontains=filter)|
-                                         Q(status__icontains=filter))
-        return Order.objects.all()
+                                         Q(status__icontains=filter)).order_by('id')
+        return Order.objects.all().order_by('id')
         
     def get_status_initial(self):
         orders = Order.objects.all()
@@ -51,40 +51,6 @@ class StaffPanel(LoginRequiredMixin,ListView):
                     StatusFormSet.status = form.cleaned_data['status']
                     StatusFormSet.save()
    
-
-
-
-        
-class OrderFieldsMixin():
-  def dispatch(self, request, *args, **kwargs):
-    if request.user.is_superuser:
-        self.fields = [
-                       "phone",
-                       "table"
-                       "product",
-                       "price",
-                       "quantity",
-                       
-                       ]
-    else:
-        raise Http404
-    return super().dispatch(request, *args, **kwargs)
-  
-
-class OrderItemFormValidMixin():
-  def form_valid(self, form):
-    context = self.get_context_data()
-    order_item_staff_formset = context['order_item_staff_formset']
-    if self.request.user.is_staff:
-        self.obj = form.save()
-        if order_item_staff_formset.is_valid():
-            order_item_staff_formset.instance = self.obj
-            order_item_staff_formset.save()
-        return redirect('dashboard')
-    else:
-        self.obj = form.save(commit=False)
-        self.obj.available = False
-    return super().form_valid(form)
 
 
 class OrderStaffUpdate(LoginRequiredMixin,UpdateView,OrderFieldsMixin,OrderItemFormValidMixin): 
