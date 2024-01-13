@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import Order, OrderItem
 from shop.models import Category, Product
 from .forms import OrderItemStaffFormSet, StatusForm, StatusFormSet
+from datetime import datetime
 
 
 class StaffPanel(LoginRequiredMixin, ListView):
@@ -147,6 +148,41 @@ class Managerview(View):
     template_name = 'staff/manager.html'
     model = OrderItem
 
+    def post(self, request):
+        print(request.POST.get('trip-end'))
+        start_time = datetime.strptime(
+            request.POST.get('trip-start'), "%Y-%m-%d")
+        end_time = datetime.strptime(request.POST.get('trip-end'), "%Y-%m-%d")
+        count, summ, time, hour = dict(), dict(), dict(), dict()
+        mountain_elevation_data, mountain_elevation_data_time = list(), list()
+        for item in OrderItem.objects.all():
+            if start_time.date() <= item.order.created.date() <= end_time.date():
+                if item.order.id not in time:
+                    time[item.order.id] = Order.objects.filter(
+                        id=item.order.id)
+                count[item.product.name] = OrderItem.objects.filter(
+                    product_id=item.product.id)
+        for k, v in time.items():
+            for x in v:
+                if k in hour.keys():
+                    hour[k] += x.created.hour
+                else:
+                    hour[k] = x.created.hour
+        for k, v in count.items():
+            for x in v:
+                if k in summ.keys():
+                    summ[k] += x.quantity
+                else:
+                    summ[k] = x.quantity
+        for i in range(0, 25):
+            mountain_elevation_data_time.append({"label": i, "y": 0})
+            for k, v in hour.items():
+                if v == i:
+                    mountain_elevation_data_time[i]['y'] += 1
+        for k, v in summ.items():
+            mountain_elevation_data.append({"label": k, "y": v})
+        return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time})
+
     def get(self, request):
         count, summ, time, hour = dict(), dict(), dict(), dict()
         mountain_elevation_data, mountain_elevation_data_time = list(), list()
@@ -174,5 +210,4 @@ class Managerview(View):
                     mountain_elevation_data_time[i]['y'] += 1
         for k, v in summ.items():
             mountain_elevation_data.append({"label": k, "y": v})
-        print(hour)
         return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time})

@@ -46,7 +46,17 @@
 
 
 
-
+<div class="d-flex justify-content-center p-1">
+    <form action="" method="post">
+    <label class="m-2" for="start">Start date:</label>
+    <input type="date" id="start" name="trip-start" value="2024-01-01" min="2023-01-01" max="2024-12-31" />
+    <label class="m-2" for="end">End date:</label>
+    <input type="date" id="end" name="trip-end" value="2024-07-22" min="2024-01-01" max="2024-12-31" />
+    {% csrf_token %}
+    <input class="btn btn-primary py-2 px-4 m-2" type="submit" name="submit" value="submit" />
+    <!-- <a href="" class="btn btn-primary py-2 px-4 m-2"></a> -->
+</form>
+</div>
 
 <div class="d-flex justify-content-center p-1">
     <div id="chartContainertime" style="width: 40%; height: 360px"></div>
