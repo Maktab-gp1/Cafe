@@ -149,7 +149,6 @@ class Managerview(View):
     model = OrderItem
 
     def post(self, request):
-        print(request.POST.get('trip-end'))
         start_time = datetime.strptime(
             request.POST.get('trip-start'), "%Y-%m-%d")
         end_time = datetime.strptime(request.POST.get('trip-end'), "%Y-%m-%d")
