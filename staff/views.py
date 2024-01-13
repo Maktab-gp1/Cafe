@@ -168,11 +168,11 @@ class Managerview(View):
                 else:
                     summ[k] = x.quantity
         for i in range(0, 25):
+            mountain_elevation_data_time.append({"label": i, "y": 0})
             for k, v in hour.items():
-                if k == i:
+                if v == i:
                     mountain_elevation_data_time[i]['y'] += 1
-                else:
-                    mountain_elevation_data_time.append({"label": i, "y": 0})
         for k, v in summ.items():
             mountain_elevation_data.append({"label": k, "y": v})
+        print(hour)
         return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time})
