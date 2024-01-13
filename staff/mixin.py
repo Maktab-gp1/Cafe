@@ -11,6 +11,7 @@ class OrderFieldsMixin():
                        "price",
                        "quantity",
                        
+                       
                        ]
     else:
         raise Http404

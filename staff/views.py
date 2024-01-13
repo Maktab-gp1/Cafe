@@ -1,6 +1,6 @@
 from typing import Any
-from django.shortcuts import render ,get_object_or_404
-from django.urls import reverse_lazy
+from django.shortcuts import render ,get_object_or_404 ,redirect
+from django.urls import reverse_lazy 
 from django.views import View
 from django.views.generic.edit import UpdateView ,CreateView 
 from django.views.generic import ListView
@@ -10,6 +10,7 @@ from orders.models import Order,OrderItem
 from shop.models import Category , Product
 from .mixin import OrderFieldsMixin,OrderItemFormValidMixin
 from .forms import  OrderItemStaffFormSet , StatusForm ,StatusFormSet
+from django.http import HttpResponseRedirect
   
   
 class StaffPanel(LoginRequiredMixin,ListView):
@@ -38,18 +39,24 @@ class StaffPanel(LoginRequiredMixin,ListView):
         context["categories"] = Category.objects.all()
         formset = StatusFormSet(initial=self.get_status_initial())
         context["status"] = formset
-        print(context)
+        # print(context)
         return context
     
     def post(self,request):
-        formset = StatusFormSet(self.request.POST)
-        if formset.is_valid():
-            for form in formset:
-                if form.is_valid():
-                    StatusFormSet = get_object_or_404(StatusFormSet, id=StatusFormSet_id)
-                    StatusFormSet_id = form.cleaned_data.get('id')
-                    StatusFormSet.status = form.cleaned_data['status']
-                    StatusFormSet.save()
+        formset = StatusFormSet(request.POST)
+        # print(formset)
+        for form in formset:
+                    print('-------------------------')
+                    print(form)
+                    print('-------------------------')
+
+                    if form.is_valid():
+                        StatusFormSet_id = form.cleaned_data.get('id')
+                        StatusFormSetval = get_object_or_404(Order, id=StatusFormSet_id)
+                        StatusFormSetval.status = form.cleaned_data['status']
+                        StatusFormSetval.save()
+                        return redirect('dashboard')
+        return redirect('dashboard')
    
 
 

@@ -64,15 +64,15 @@
                         
                         <form action="{% url 'dashboard' %}" method="post"  >
                             
-                                {{ status.management_form }}
+                                {{ formset.form for order.status }}
                                 {% csrf_token %}
-                            {{status.form.status}}
+                            {% comment %} {{status.form.status}} {% endcomment %}
                                 
                                 <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
 
                         </form> 
                         </td>   
-                        {% comment %} <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>                       
+                        <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>                       
                     {% endfor %} 
                          {% for form  in status  %}
                             <th>
@@ -84,7 +84,7 @@
                                 {{form}}
                                 <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
 
-                            </form> {% endcomment %}
+                            </form> 
                             </th>
                         {% endfor %} 
                     </tr>
