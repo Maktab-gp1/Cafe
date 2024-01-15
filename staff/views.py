@@ -11,6 +11,7 @@ from orders.models import Order, OrderItem
 from shop.models import Category, Product
 from .forms import OrderItemStaffFormSet, StatusForm, StatusFormSet
 from datetime import datetime
+from django.contrib.contenttypes.models import ContentType
 
 
 class StaffPanel(LoginRequiredMixin, ListView):
@@ -149,6 +150,8 @@ class Managerview(View):
     model = OrderItem
 
     def post(self, request):
+        if not request.user.is_superuser:
+            return redirect('dashboard')
         start_time = datetime.strptime(
             request.POST.get('trip-start'), "%Y-%m-%d")
         end_time = datetime.strptime(request.POST.get('trip-end'), "%Y-%m-%d")
@@ -183,6 +186,8 @@ class Managerview(View):
         return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time})
 
     def get(self, request):
+        if not request.user.is_superuser:
+            return redirect('dashboard')
         count, summ, time, hour = dict(), dict(), dict(), dict()
         mountain_elevation_data, mountain_elevation_data_time = list(), list()
         for item in OrderItem.objects.all():
