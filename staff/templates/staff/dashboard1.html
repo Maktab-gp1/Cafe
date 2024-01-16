@@ -38,14 +38,13 @@
                             {% endfor %}
                            </tr>
                         {% endfor %}
-                        <tfoot class ="d-flex justify-content-between">
+                        <tfoot class ="d-flex justify-content-right">
+                        
                         <td>
-
-                        <input class="btn btn-primary btn-sm py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="update">
+                        <a href={% url "dashboard" %} class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " >Back to Dashboard</a>
                         </td>
                         <td>
-
-                        <a href={% url "dashboard" %} class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " >Back to Dashboard</a>
+                        <input class="btn btn-primary btn-sm py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="update">
                         </td>
                        </tfood>
                   </form>
