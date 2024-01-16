@@ -14,59 +14,21 @@ from .forms import  OrderItemStaffFormSet , StatusForm
 
   
   
-class StaffPanel(LoginRequiredMixin,ListView):
-    model = Order
-    template_name = 'staff/dashboard.html'
-    form_class= StatusForm
-    login_url = reverse_lazy('login')
 
-    def get_queryset(self, *args, **kwargs): 
-        if self.request.GET.get('search') :
-            filter = self.request.GET['search']
-            return Order.objects.filter(
-                                         Q(phone__icontains=filter)| 
-                                         Q(created__icontains=filter)|
-                                         Q(status__icontains=filter)).order_by('id')
-        return Order.objects.all().order_by('id')
-        
-    def get_status_initial(self):
-        orders = Order.objects.all()
-        initial = [{'status': order.status } for order in orders]
-        return initial
     
-    def get_context_data(self, **kwargs) :
-        context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.all()
-        context["categories"] = Category.objects.all()
-        # formset = StatusFormSet(initial=self.get_status_initial())
-        # context["status"] = formset
-        # print(context)
-        return context
-    
-    # def post(self,request):
-        
-        
-    #                     return redirect('dashboard')
-    #     return redirect('dashboard')
+   
 @login_required
 def dashboard(request):
     context = {}
     context["products"] = Product.objects.all()
     context["categories"] = Category.objects.all()
-    if request.method == 'GET':
-        if request.GET.get('search') :
-            filter = request.GET['search']
-            return Order.objects.filter(
-                                         Q(phone__icontains=filter)| 
-                                         Q(created__icontains=filter)|
-                                         Q(status__icontains=filter)).order_by('id')
-
-    elif request.method == "POST":
+    context['object_list'] = Order.objects.all().order_by('id')
+   
+    if request.method == "POST":
         order_instance = Order.objects.filter(id=request.POST["id"]).first()
         order_instance.status = request.POST["status"]
         order_instance.save() 
 
-    context['object_list'] = Order.objects.all().order_by('id')
     return render(request ,'staff/dashboard.html' , context=context )
     
 
