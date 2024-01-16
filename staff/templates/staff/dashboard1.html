@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base1.html" %}
 {% load static %}
 {% block content %}
 
@@ -38,10 +38,16 @@
                             {% endfor %}
                            </tr>
                         {% endfor %}
-                        <div class ="d-flex justify-content-between">
+                        <tfoot class ="d-flex justify-content-between">
+                        <td>
+
                         <input class="btn btn-primary btn-sm py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="update">
+                        </td>
+                        <td>
+
                         <a href={% url "dashboard" %} class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " >Back to Dashboard</a>
-                       </div>
+                        </td>
+                       </tfood>
                   </form>
                          
                 

@@ -15,22 +15,12 @@
 
       <div class="container-xxl py-5 bg-dark  mb-5">
             <div class="container my-3 py-5">
-             <div class="input-group  justify-content-left mb-0">
-                        
-                        <div class="" data-mdb-input-init>
-                            <form action="" method="get" class="input-group  justify-content-left mb-5">
-                                
-                            <input type="search" name="search" class="form-control" placeholder="Filter by phone,date or status" />
-
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            
-                        </form></div>
-                        <div>
+             
                     </div>
                 </div>
         
           <div class="container my-2 py-2">
-            <table class="table table-dark table-striped">
+            <table class="table table-dark table-striped" id="example">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
@@ -40,6 +30,7 @@
                     <th scope="col">Orders</th>
                     <th scope="col">Updated</th>
                     <th scope="col">Status</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -58,11 +49,13 @@
                         </td>
                         <td>{{order.updated}}</td>
                         <td>
+                        {{order.status}}
                         {% show_order order %} 
                         </td>
                     </tr>    
                     {% endfor %} 
                 </tbody>
+                
               </table>
           </div>
       </div>
@@ -93,5 +86,34 @@
     </div>
   </div>
 
+<script>
+let dataTable;
+let dataTableIsInitialized = false;
+
+
+
+const initDataTable = async () => {
+    if (dataTableIsInitialized) {
+        dataTable.destroy();
+    }
+    
+    dataTable = $("#example").DataTable( {
+        columnDefs: [
+            { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6 ,7 ] },
+            
+        ],
+        
+        
+    }); 
+    dataTableIsInitialized = true;
+};
+
+window.addEventListener("load", async () => {
+    await initDataTable();
+});
+
+
+</script>
+
                    
-      {% endblock content %}
+{% endblock content %}
