@@ -32,10 +32,16 @@
                 <tbody>
                     {% for table in tables %}
                     <tr>
+                    
                         <th scope="row">{{table.id}}</th>
                         <td>{{table.name}}</td>
                         <td>
+                        {% if table.is_available %}
+                        Available
                         
+                        {% else %}
+                        Reserved
+                        {% endif %}
                         {% table_avalibility table %} 
                         </td>
                     </tr>    
