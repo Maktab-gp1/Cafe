@@ -1,5 +1,6 @@
 from typing import Any
 from django.shortcuts import render ,get_object_or_404 ,redirect
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy 
 from django.views import View
 from django.views.generic.edit import UpdateView ,CreateView 
@@ -16,7 +17,7 @@ from django.http import HttpResponseRedirect
 class StaffPanel(LoginRequiredMixin,ListView):
     model = Order
     template_name = 'staff/dashboard.html'
-    form_class= StatusFormSet
+    form_class= StatusForm
     login_url = reverse_lazy('login')
 
     def get_queryset(self, *args, **kwargs): 
@@ -37,27 +38,37 @@ class StaffPanel(LoginRequiredMixin,ListView):
         context = super().get_context_data(**kwargs)
         context["products"] = Product.objects.all()
         context["categories"] = Category.objects.all()
-        formset = StatusFormSet(initial=self.get_status_initial())
-        context["status"] = formset
+        # formset = StatusFormSet(initial=self.get_status_initial())
+        # context["status"] = formset
         # print(context)
         return context
     
-    def post(self,request):
-        formset = StatusFormSet(request.POST)
-        # print(formset)
-        for form in formset:
-                    print('-------------------------')
-                    print(form)
-                    print('-------------------------')
+    # def post(self,request):
+        
+        
+    #                     return redirect('dashboard')
+    #     return redirect('dashboard')
+@login_required
+def dashboard(request):
+    context = {}
+    context["products"] = Product.objects.all()
+    context["categories"] = Category.objects.all()
+    if request.method == 'GET':
+        if request.GET.get('search') :
+            filter = request.GET['search']
+            return Order.objects.filter(
+                                         Q(phone__icontains=filter)| 
+                                         Q(created__icontains=filter)|
+                                         Q(status__icontains=filter)).order_by('id')
 
-                    if form.is_valid():
-                        StatusFormSet_id = form.cleaned_data.get('id')
-                        StatusFormSetval = get_object_or_404(Order, id=StatusFormSet_id)
-                        StatusFormSetval.status = form.cleaned_data['status']
-                        StatusFormSetval.save()
-                        return redirect('dashboard')
-        return redirect('dashboard')
-   
+    elif request.method == "POST":
+        order_instance = Order.objects.filter(id=request.POST["id"]).first()
+        order_instance.status = request.POST["status"]
+        order_instance.save() 
+
+    context['object_list'] = Order.objects.all().order_by('id')
+    return render(request ,'staff/dashboard.html' , context=context )
+    
 
 
 class OrderStaffUpdate(LoginRequiredMixin,UpdateView,OrderFieldsMixin,OrderItemFormValidMixin): 

@@ -4,7 +4,7 @@ from user.views import CustomLoginView
 
 
 urlpatterns = [
-    path('dashboard',StaffPanel.as_view(),name='dashboard'),
+    path('dashboard',dashboard,name='dashboard'),
     path("orderupdate/<pk>",OrderStaffUpdate.as_view(),name='orderstaffupdate'),
     path('createcategory',CategoryCreateView.as_view(),name='createcategory'),
     path('categoriesview/<pk>',CategoryUpdateView.as_view(),name='categoriesview'),

@@ -1,0 +1,7 @@
+
+<form action="{% url 'dashboard' %}" method="post"  >
+        {% csrf_token %}
+        {{form.status}}
+        <input type="hidden" value="{{ order.id }}" name="id" />
+        <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
+</form> 

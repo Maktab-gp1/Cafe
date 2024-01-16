@@ -1,5 +1,6 @@
 {% extends "base1.html" %}
 {% load static %}
+{% load filters %}
 {% block content %}
 
 <div class="container-xxl bg-white p-0">
@@ -42,53 +43,25 @@
                   </tr>
                 </thead>
                 <tbody>
-                    
-                    
                     {% for order in object_list %}
                     <tr>
-
                         <th scope="row"><a href="{{order.get_absolute_url }}">{{order.id}}</a></th>
                         <td>{{order.phone}}</td>
                         <td>{{order.table}}</td>
                         <td>{{order.created}}</td>
-                        <td><ul>{% for item in order.items.all %}
-                        <li>{{item.product}} x{{item.quantity}}</li>
-                        {% endfor %} 
-                        </ul> 
-                         
+                        <td>
+                            <ul>
+                                {% for item in order.items.all %}
+                                    <li>{{item.product}} x{{item.quantity}}</li>
+                                {% endfor %} 
+                            </ul> 
                         </td>
                         <td>{{order.updated}}</td>
-                        
                         <td>
-                        {{order.status}}
-                        
-                        <form action="{% url 'dashboard' %}" method="post"  >
-                            
-                                {{ formset.form for order.status }}
-                                {% csrf_token %}
-                            {% comment %} {{status.form.status}} {% endcomment %}
-                                
-                                <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
-
-                        </form> 
-                        </td>   
-                        <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>                       
+                        {% show_order order %} 
+                        </td>
+                    </tr>    
                     {% endfor %} 
-                         {% for form  in status  %}
-                            <th>
-                            <form action="{% url 'dashboard' %}" method="post"  >
-                            
-                            
-                                {{ status.management_form }}
-                                {% csrf_token %}
-                                {{form}}
-                                <td><input class="btn btn-primary py-sm-1 px-sm-3 me-4 m-2 " type="submit" value="Update"></td>
-
-                            </form> 
-                            </th>
-                        {% endfor %} 
-                    </tr>
-                    
                 </tbody>
               </table>
           </div>
