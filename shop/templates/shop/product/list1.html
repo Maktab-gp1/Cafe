@@ -99,45 +99,48 @@
                                 {% for product in object_list %}
                                     <div class="col-lg-6">
                                     <div class="d-flex align-products-center">
-                                        <a href="{{ product.get_absolute_url }}">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="" style="width: 80px;">
+                                        
+                                        <img class="flex-shrink-2 img-thumbnail mb-2  rounded" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="" style="width: 70px;">
                                         </a>
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span>{{ product.name }}</span>
                                                 <span class="text-primary">${{ product.price }}</span>
                                             </h5>
-                                        </div>  
+                                            <div class= ' d-flex flex-row-reverse ' >
                                                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Add to cart
-                                        </button>
+                                            <button type="button" class="btn btn-primary justify-content-left btn-sm" data-bs-toggle="modal" data-bs-target="#{{product.name}}Modal">
+                                            Add to cart 
+                                            </button>
+                                            </div>
+                                        </div>  
+
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">{{ product.name }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal fade {{product.name}}" id="{{product.name}}Modal" tabindex="-1" aria-labelledby="{{product.name}}Label" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="{{product.name}}Label">{{ product.name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{product.description}}
+                                                </div>
+                                                <form class=" mb-4 pb-2"  method="post">
+                                                {{ form.as_p }}
+                                                <input type="hidden" name="product_id" value="{{product.id}}">
+                                                {% csrf_token %}
+                                                <span>Price: {{ product.price }}</span>
+                                                </br></br>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button href={% url 'shop:productlist' 'all' %} type="submit" class="btn btn-primary">Add to cart</button>
+                                                </div>
+                                                </form>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                {{product.description}}
                                             </div>
-                                            <form class="text-white animated slideInLeft mb-4 pb-2" action="{% url 'cart:cart_add' product.id %}" method="post">
-                                            {{ form.as_p }}
-                                            {% csrf_token %}
-                                            Price: {{ product.price }}</br></br>
-                                            {% comment %} <input type="submit" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft" value="Add to cart"> {% endcomment %}
-                                            
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Add to cart</button>
-                                            </div>
-                                            </form>
-                                            </div>
-                                        </div>
-                                        </div>
                                     </div>
                                 </div>
                                     {% endfor %}
