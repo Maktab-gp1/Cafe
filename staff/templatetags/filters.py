@@ -1,5 +1,5 @@
 from django import template
-from staff.forms import StatusForm
+from staff.forms import StatusForm , TableForm
 
 register = template.Library()
 
@@ -7,3 +7,8 @@ register = template.Library()
 def show_order(order):
     form = StatusForm(instance=order)
     return {"order": order, "form": form}
+
+@register.inclusion_tag("staff/_available_form.html")
+def table_avalibility(table):
+    form = TableForm(instance = table)
+    return {"table": table , "form": form}

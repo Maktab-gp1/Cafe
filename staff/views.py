@@ -5,12 +5,11 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import UpdateView ,CreateView 
 from django.views.generic import ListView
-from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
-from orders.models import Order,OrderItem
-from shop.models import Category , Product
+from orders.models import Order,OrderItem, Table
+from shop.models import Category , Product 
 from .mixin import OrderFieldsMixin,OrderItemFormValidMixin
-from .forms import  OrderItemStaffFormSet , StatusForm 
+from .forms import  OrderItemStaffFormSet 
 
   
   
@@ -30,8 +29,25 @@ def dashboard(request):
         order_instance.save() 
 
     return render(request ,'staff/dashboard.html' , context=context )
-    
+@login_required
+def tables(request):
+    context = {}
+    context['tables'] = Table.objects.all()
+    if request.method == "POST":
+        table_instance = Table.objects.filter(id=request.POST["id"]).first()
+        if "is_available" in request.POST :
+            table_instance.is_available = True
+        else:
+            table_instance.is_available = False
+        table_instance.save()
+    return render(request,'staff/tablelist.html' , context=context)
 
+class TableCreateView(LoginRequiredMixin,CreateView):
+    login_url = reverse_lazy('login')
+    model= Table
+    fields=['id' ,'name']
+    template_name = 'staff/tablecreate.html'
+    success_url = reverse_lazy('tablelist')
 
 class OrderStaffUpdate(LoginRequiredMixin,UpdateView,OrderFieldsMixin,OrderItemFormValidMixin): 
     login_url = reverse_lazy('login')

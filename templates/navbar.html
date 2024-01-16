@@ -1,13 +1,10 @@
 {% if request.user.is_authenticated %}
-
- 
-
     
   <!-- Navbar & Hero Start -->
   <div class="container-xxl position-relative p-0 ">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
           <a href={% url "dashboard"  %} class="navbar-brand p-0">
-              <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Staff Panel</h1>
+              <h1 class="text-primary m-0"> <i class="fa-regular fa-user me-3"></i>Staff Panel</h1>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
               <span class="fa fa-bars"></span>
@@ -17,10 +14,18 @@
                   <a href={% url "dashboard"  %} class="nav-item nav-link active">Dashboard</a>
                   <a href={% url "shop:productlist" 'all' %} class="nav-item nav-link">Menu</a>
                   <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Create</a>
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Menu ITEMS</a>
                       <div class="dropdown-menu m-0">
                           <a href="{% url 'createcategory'  %}" class="dropdown-item">New Category</a>
                           <a href={% url 'newitem'  %} class="dropdown-item">New Product</a>
+                          <a class="dropdown-item">Coming Soon..</a>
+                      </div>
+                  </div>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">TABLES</a>
+                      <div class="dropdown-menu m-0">
+                          <a href="{% url 'tablelist'  %}" class="dropdown-item">Tables List</a>
+                          <a href={% url 'tablecreate'  %} class="dropdown-item">New Table</a>
                           <a class="dropdown-item">Coming Soon..</a>
                       </div>
                   </div>
