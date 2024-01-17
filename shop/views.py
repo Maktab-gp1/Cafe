@@ -51,15 +51,15 @@ class ProductListView(ListView):
 
 
     
-# class ProductDetailView(DetailView):
-#     queryset = Product.objects.filter(available = True)
-#     template_name = 'shop/product/detail1.html'
-#     slug_url_kwarg = "slug"
-#     def get_context_data(self, **kwargs) -> dict[str, Any]:
-#         context = super().get_context_data(**kwargs)
-#         context["form"] =  CartAddProductForm()
-#         print(context)
-#         return context
+class ProductDetailView(DetailView):
+    queryset = Product.objects.filter(available = True)
+    template_name = 'shop/product/detail1.html'
+    slug_url_kwarg = "slug"
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["form"] =  CartAddProductForm()
+        print(context)
+        return context
     
 
 
