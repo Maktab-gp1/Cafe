@@ -15,5 +15,6 @@ urlpatterns = [
     path('updateitem/<pk>' , ProductUpdateView.as_view(),name='updateitem'),
     path('', CustomLoginView.as_view(template_name='user/login.html',), name='login'),
     path('manager/', Managerview.as_view(), name='manager'),
+    
 
 ]
