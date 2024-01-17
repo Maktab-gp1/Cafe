@@ -59,55 +59,60 @@
       </div>
   </div>
   <!-- Navbar & Hero End -->
-     <div class="tab-content px-3 " id="menu">
-          
-          <div id="tab-1" class="tab-pane fade show p-0 active">
 
 
-      <div class="row g-3 justify-content-between  " >
-        {% for item in cart %}
-        {% with product=item.product %}
-        <div class="col-lg-6 ">
-          <div class="d-flex  align-items-center">
-                      
-              <img  class="flex-shrink-0 img-thumbnail mb-2 rounded" src="{% if product.image %}{{ product.image.url }}
-                    {% else %}{% static "img/no_image.png" %}{% endif %}"  style="width: 90px;"> 
-              </a>
-              <div class="w-100 d-flex flex-column text-start ps-4">
-                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                    <span>{{ product.name }}</span>
-                    <span class="text-primary">${{ item.total_price }}</span>
-                </h5>
-                <small class="fst-italic d-flex justify-content-between">
-                      <form class="d-flex justify-content-left text-white animated  mb-2 pb-2" action="{% url "cart:cart_add" product.id %}" method="post">
-                        <span class ='m-4'>{{ item.update_quantity_form.quantity }}
-                        {{ item.update_quantity_form.override }}</span>
-                        <input class="btn btn-primary btn-sm py-sm-2 px-sm-2 m-4 me-2 animated " type="submit" value="Update">
-                        {% csrf_token %}
-                      </form>
-                      <form clsss="d-flex justify-content-right" action="{% url 'cart:cart_remove' product.id %}" method="post">
-                      <input class="btn btn-primary btn-sm py-sm-2 px-sm-2 m-4 me-2 animated " type="submit" value="Remove">
-                      {% csrf_token %}
-                      </form>
-                      </small>
-            </div>
-          </div>
+{% comment %}   
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">${{ cart.get_total_price }}</td>
+      </tr>
+    
+    
+      {% endcomment %}
+
+  <div class="row g-4" >
+    {% for item in cart %}
+    {% with product=item.product %}
+    <div class="col-lg-6">
+      <div class="d-flex align-items-center">
+      <a href="{{ product.get_absolute_url }}">              
+          <img href="{{ product.get_absolute_url }}" class="flex-shrink-0 img-fluid rounded" src="{% if product.image %}{{ product.image.url }}
+                {% else %}{% static "img/no_image.png" %}{% endif %}"  style="width: 80px;"> 
+          </a>
+          <div class="w-100 d-flex flex-column text-start ps-4">
+            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>{{ product.name }}</span>
+                <span class="text-primary">${{ item.total_price }}</span>
+            </h5>
+            <small class="fst-italic">
+                  <form class="d-flex justify-content-between text-white animated  mb-4 pb-2" action="{% url "cart:cart_add" product.id %}" method="post">
+                    <span class ='m-4'>{{ item.update_quantity_form.quantity }}
+                    {{ item.update_quantity_form.override }}</span>
+                    <input class="btn btn-primary py-sm-2 px-sm-4 m-4 me-2 animated " type="submit" value="Update">
+                    {% csrf_token %}
+                  </form>
+                  <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                  <input class="btn btn-primary py-sm-2 px-sm-4  me-2 animated " type="submit" value="Remove">
+                  {% csrf_token %}
+                  </form>
+                  
+                  </small>
         </div>
-        
-        {% endwith %}
-        {% endfor %}
+      </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
    
-       
-          {% comment %} <div class="col-lg-6 d-flex align-items-center justify-content-center"> {% endcomment %}
-            <div class="d-flex align-items-center justify-content-between">
-              <td>Total: </td>
-              <td colspan="4"></td>
-              <td class="num">${{ cart.get_total_price }}</td><br>
-              <a href="{% url 'shop:productlist' 'all' %}" class="btn btn-dark btn-sm py-sm-2 px-sm-2 me-2 animated ">Continue shopping</a>
-              <a href="{% url 'orders:order_create' %}" class="btn btn-primary btn-sm py-sm-2 px-sm-2 me-2 animated ">Checkout</a>
-           
-          </div> 
-        </div>
   </div>
-
-{% endblock content %}
+    <br><br>
+    <div class="col-lg-6">
+      <div class="d-flex align-items-center justify-content-center">
+        <td>Total: </td>
+        <td colspan="4"></td>
+        <td class="num">${{ cart.get_total_price }}</td><br>
+        <a href="{% url 'shop:productlist' 'all' %}" class="btn btn-primary py-sm-2 px-sm-4 me-2 animated ">Continue shopping</a>
+        <a href="{% url 'orders:order_create' %}" class="btn btn-primary py-sm-2 px-sm-4 me-2 animated ">Checkout</a>
+      </div>
+    </div> 
+  </div>{% endblock content %}
