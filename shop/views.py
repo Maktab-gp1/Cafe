@@ -54,7 +54,14 @@ class ProductListView(ListView):
 class HomeView(TemplateView):
     template_name="shop/index.html"
 
+class Contact(TemplateView):
+    template_name = "shop/contact.html"
 
+class About(TemplateView):
+    template_name = "shop/about.html"
+
+class Service(TemplateView):
+    template_name = "shop/service.html"
     
 # class ProductDetailView(DetailView):
 #     queryset = Product.objects.filter(available = True)

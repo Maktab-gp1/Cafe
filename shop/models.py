@@ -50,3 +50,15 @@ class Product(models.Model):
         ]
     def __str__(self):
         return self.name
+    
+
+class Cafe(models.Model):
+    name = models.CharField(max_length = 200)
+    address = models.TextField()
+    email = models.EmailField()
+    phone = models.IntegerField()
+    about = models.TextField()
+    working_days_start = models.CharField(max_length = 200)
+    working_days_end = models.CharField(max_length = 200)
+    working_hours_start = models.TimeField()
+    working_hours_end = models.TimeField()
