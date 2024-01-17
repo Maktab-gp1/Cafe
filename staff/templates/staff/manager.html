@@ -11,30 +11,102 @@
       
     <!-- Navbar & Hero Start -->
     <div class="container-xxl position-relative p-0 ">
-       {% include "navbar.html" %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0 pe-4">
+                    <a href="home" class="nav-item nav-link active">Home</a>
+                    <a href="about" class="nav-item nav-link">About</a>
+                    <a href="service" class="nav-item nav-link">Service</a>
+                    <a href="menu" class="nav-item nav-link">Menu</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="booking" class="dropdown-item">Booking</a>
+                            <a href="team" class="dropdown-item">Our Team</a>
+                            <a href="testimonial" class="dropdown-item">Testimonial</a>
+                        </div>
+                    </div>
+                    <a href="contact" class="nav-item nav-link">Contact</a>
+                </div>
+                <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4">Log out</a>
+            </div>
+        </nav>
   
         <div class="container-xxl py-5 bg-dark  mb-5">
         </div>
     </div>
     <!-- Navbar & Hero End -->
+
+
+
+<div class="d-flex justify-content-center p-1">
+    <div style="width: 40%;">
+    <form action="" method="post">
+    <label class="m-2" for="start">Start date:</label>
+    <input type="date" id="start" name="trip-start" value="2024-01-01" min="2023-01-01" max="2024-12-31" />
+    <label class="m-2" for="end">End date:</label>
+    <input type="date" id="end" name="trip-end" value="2024-07-22" min="2024-01-01" max="2024-12-31" />
+    {% csrf_token %}
+    <input class="btn btn-primary py-2 px-4 m-2" type="submit" name="submit" value="submit" />
+    <!-- <a href="" class="btn btn-primary py-2 px-4 m-2"></a> -->
+</form></div>
+<div style="width: 40%;">
+<form action="" method="post">
+    <label for="category">Choose a category:</label>
+    <select name="category" id="category">
+        {% for cat in category %}
+        <option value="{{cat.name}}">{{cat.name}}</option>
+        {% endfor %}
+    </select>
+    {% csrf_token %}
+    <input class="btn btn-primary py-2 px-4 m-2"  type="submit" value="Submit">
+  </form></div>
+</div>
+
+<div class="d-flex justify-content-center p-1">
+    <div id="chartContainertime" style="width: 40%; height: 360px"></div>
+    <div id="chartContainer" style="width: 40%; height: 360px"></div>
+</div>
+
 <script type="text/javascript">
-  window.onload = function () {
-      var chart = new CanvasJS.Chart("chartContainer", {
-          animationEnabled: true, // change to false
-          title:{
-              text: "Most sale products"
-          },
-          axisY: {
-                        title: "Elevation (in count)",
-                    },
-          data: [{
-            type: "column",
-            yValueFormatString: "#,##0 ",
-            dataPoints: {{ mountain_elevation_data|safe }}
-        }]
-      });
-      chart.render();
-  }
-</script>
-<div id="chartContainer" style="width: 50%; height: 360px"></div>
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true, // change to false
+            title:{
+                text: "Most sale products"
+            },
+            axisY: {
+                          title: "Elevation (in count)",
+                      },
+            data: [{
+              type: "column",
+              yValueFormatString: "#,##0 ",
+              dataPoints: {{ mountain_elevation_data|safe }}
+          }]
+        });
+        chart.render();
+        var chart_time = new CanvasJS.Chart("chartContainertime", {
+            animationEnabled: true, // change to false
+            title:{
+                text: "Peak time"
+            },
+            axisY: {
+                          title: "orders (in count)",
+                      },
+            data: [{
+              type: "spline",
+              yValueFormatString: "#,##0 ",
+              dataPoints: {{ mountain_elevation_data_time|safe }}
+          }]
+        });
+        chart_time.render();
+    }
+  </script>
  {% endblock content %}
