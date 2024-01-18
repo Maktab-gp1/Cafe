@@ -135,3 +135,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+manger/static/.DS_Store
+manger/static/assets/.DS_Store
+manger/static/user_profile/.DS_Store
+manger/static/user_profile/assets/.DS_Store
