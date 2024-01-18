@@ -1,4 +1,4 @@
-from typing import Any
+
 from django.shortcuts import render 
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy 
@@ -10,35 +10,10 @@ from orders.models import Order,OrderItem, Table
 from shop.models import Category , Product 
 from .mixin import OrderFieldsMixin,OrderItemFormValidMixin
 from .forms import  OrderItemStaffFormSet 
-import csv
-from django.http import HttpResponse
-from django.db.models import Count, Sum, F, ExpressionWrapper, DecimalField
+from manger.utils import export_csv
 
   
-def export_csv():
-        queryset = Order.objects.all().values()
-        customers_data = (
-            queryset
-            .values('phone')
-            .annotate(count=Count('id'),
-                      total=Sum(
-                          F('items__price') * F('items__quantity')  ,
-                          output_field=DecimalField(max_digits=10, decimal_places=2)
-                      )
-                      )
-            .order_by('-total')
-        )
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="customer_orders.csv"'
 
-        writer = csv.writer(response)
-        headers = ['phone' , 'count', 'total']
-        writer.writerow(headers)
-
-        for row in customers_data:
-            writer.writerow([str(row[field]) for field in headers])
-
-        return response  
 
     
    

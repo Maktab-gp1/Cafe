@@ -1,0 +1,42 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+{% block body %}
+{% load filters %}
+
+<!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container sidebar-closed sbar-open" id="container">
+
+    {% include 'dashboard/sidebar.html' %}
+     
+        <div class="container-xxl py-5 mb-5">
+          <div class="container my-5 py-5">
+              <div class="col-md-6  d-flex align-items-center">
+                    <div class="p-5 wow " data-wow-delay="0.2s">
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Foodes</h5></br></br>
+                            <div class="col-lg-3 col-md-6">
+                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4"></h4>
+                        {% for product in object_list %}
+                        <a class="btn btn-link" href={% url "dashboard:updatefood" pk=product.pk %}>{{product.name}}</a>
+                       
+                        {% endfor %}
+                    </div>
+                        
+                    </div>
+              <div class="col-md-6  d-flex align-items-center">
+                    <div class="p-5 wow " data-wow-delay="0.2s">
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Categories</h5></br></br>
+                            <div class="col-lg-3 col-md-6">
+                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4"></h4>
+                        {% for category in categories %}
+                        <a class="btn btn-link" href={% url 'dashboard:updatecategory' pk=category.pk %}>{{category.name}}</a>
+                       
+                        {% endfor %}
+                    </div>
+                        
+                    </div>
+          
+          </div>
+
+    </div>
+
+{% endblock body %}

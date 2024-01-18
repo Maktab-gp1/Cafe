@@ -37,15 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'multiforloop',
     'shop.apps.ShopConfig',
     'cafe.apps.CafeConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'user',
     'staff',
-    # 'account.apps.AccountConfig'
-    
+    'manger',  
 ]
 
 MIDDLEWARE = [
@@ -56,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'account.middleware.UserVerifyMiddleware',
     'user.middleware.UserVerifyMiddleware'
 ]
 

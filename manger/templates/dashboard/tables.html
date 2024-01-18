@@ -1,0 +1,80 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+{% block body %}
+{% load filters %}
+
+<!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container sidebar-closed sbar-open" id="container">
+
+    {% include 'dashboard/sidebar.html' %}
+              
+        </div>
+    <div class="container my-2 py-2">
+            <table class="table table-dark table-striped" id="tablelist">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Available</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for table in tables %}
+                    <tr>
+                    
+                        <th scope="row">{{table.id}}</th>
+                        <td>{{table.name}}</td>
+                        <td>
+                        {% if table.is_available %}
+                        Available
+                        
+                        {% else %}
+                        Reserved
+                        {% endif %}
+                        {% table_avalibility table %} 
+                        </td>
+                    </tr>    
+                    {% endfor %} 
+                </tbody>
+                
+              </table>
+          </div>
+      </div>
+  </div>
+  <!-- Navbar & Hero End -->
+
+   
+
+<script>
+let dataTable;
+let dataTableIsInitialized = false;
+
+
+
+const initDataTable = async () => {
+    if (dataTableIsInitialized) {
+        dataTable.destroy();
+    }
+    
+    dataTable = $("#tablelist").DataTable( {
+        columnDefs: [
+            { className: "centered", targets: [0, 1, 2, 3] },
+            
+        ],
+        
+        
+    }); 
+    dataTableIsInitialized = true;
+};
+
+window.addEventListener("load", async () => {
+    await initDataTable();
+});
+
+
+</script>
+
+
+
+{% endblock body %}   

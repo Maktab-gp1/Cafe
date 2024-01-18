@@ -15,7 +15,8 @@ class Table(models.Model):
 
 
 class Order(models.Model):
-    class Status(models.TextChoices):
+    status_fields = [("PR","Process"),("CF","Confirmed"),("PA","Paid")]
+    class Status1(models.TextChoices):
         PROCESS = "PR",_("Process")
         CONFIRMED = "CF",_("Confirmed")
         PAYED = "PA",_("Paid")
@@ -25,8 +26,8 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(
-        max_length=2,choices = Status,
-        db_default=Status.PROCESS,
+        max_length=2,choices = Status1,
+        db_default=Status1.PROCESS,
         )
 
     class Meta:
