@@ -4,11 +4,14 @@
 {% load filters %}
 
 <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container sidebar-closed sbar-open" id="container">
+ <div class="main-container sidebar-closed sbar-open" id="container">
+     <div class="overlay"></div>
+        <div class="search-overlay"></div>        
+        {% include 'dashboard/sidebar.html' %}
 
-    {% include 'dashboard/sidebar.html' %}
-              
-        </div>
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
     <div class="container my-2 py-2">
             <table class="table table-dark table-striped" id="tablelist">
                 <thead>
@@ -42,7 +45,6 @@
           </div>
       </div>
   </div>
-  <!-- Navbar & Hero End -->
 
    
 
@@ -62,7 +64,7 @@ const initDataTable = async () => {
             { className: "centered", targets: [0, 1, 2, 3] },
             
         ],
-        
+        responsive: true,
         
     }); 
     dataTableIsInitialized = true;
