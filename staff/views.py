@@ -118,7 +118,17 @@ class Managerview(View):
     def post(self, request):
         if not request.user.is_superuser:
             return redirect('dashboard')
-        if request.POST.get('category') == None:
+        # total = 0
+        # today = datetime.now()
+        # if request.POST.get('date') is not None:
+        #     if request.POST.get('date') == 'Daily':
+        #         sale_items = Order.objects.filter(created.day == today.day)
+        #     elif request.POST.get('date') == 'Mounthly':
+        #         sale_items = Order.objects.filter(
+        #             created.month == today.month)
+        #     else:
+        #         sale_items = Order.objects.filter(created.year == today.year)
+        if request.POST.get('category') == None or request.POST.get('date') == None:
             start_time = datetime.strptime(
                 request.POST.get('trip-start'), "%Y-%m-%d")
             end_time = datetime.strptime(
@@ -126,6 +136,8 @@ class Managerview(View):
             category = None
         else:
             category = request.POST.get('category')
+            if category == 'All':
+                category = None
         cat = Category.objects.all()
         count, summ, time, hour = dict(), dict(), dict(), dict()
         mountain_elevation_data, mountain_elevation_data_time = list(), list()
@@ -174,9 +186,12 @@ class Managerview(View):
     def get(self, request):
         if not request.user.is_superuser:
             return redirect('dashboard')
+        total = 0
         count, summ, time, hour = dict(), dict(), dict(), dict()
         mountain_elevation_data, mountain_elevation_data_time = list(), list()
         cat = Category.objects.all()
+        for item in Order.objects.all():
+            total += item.get_total_cost()
         for item in OrderItem.objects.all():
             if item.order.id not in time:
                 time[item.order.id] = Order.objects.filter(id=item.order.id)
@@ -201,7 +216,7 @@ class Managerview(View):
                     mountain_elevation_data_time[i]['y'] += 1
         for k, v in summ.items():
             mountain_elevation_data.append({"label": k, "y": v})
-        return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time, 'category': cat})
+        return render(request, self.template_name, context={"mountain_elevation_data": mountain_elevation_data, "mountain_elevation_data_time": mountain_elevation_data_time, 'category': cat, "total": total})
 
 
 def export_to_csv(modeladmin, request, queryset):

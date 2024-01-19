@@ -74,6 +74,19 @@
     <div id="chartContainertime" style="width: 40%; height: 360px"></div>
     <div id="chartContainer" style="width: 40%; height: 360px"></div>
 </div>
+<div>
+    <form action="" method="post">
+        <label class="text-start ms-3" for="date">Choose:</label>
+        <select name="date" id="date">
+            <option value="Daily">Daily</option>
+            <option value="Monyhly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+        </select>
+        {% csrf_token %}
+        <input class="btn btn-primary py-2 px-4 m-2"  type="submit" value="Submit">
+        <p class="text-start ms-3">your total sale is: {{total}} $</p>
+    </form>
+</div>
 
 <script type="text/javascript">
     window.onload = function () {
