@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render
 from django.views.generic import  ListView
-from shop.models import Category, Product 
+from shop.models import Category, Product ,Cafe
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
@@ -16,7 +16,6 @@ from .utils import export_csv
 
 
 class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-
     def test_func(self):
         return self.request.user.is_superuser
 
@@ -139,3 +138,8 @@ class CategoryCreateView(SuperUserRequiredMixin,CreateView):
     template_name = 'dashboard/newcategory.html'
     success_url = reverse_lazy('dashboard:foods')
 
+class CafeInfoUpdateView(UpdateView):
+    model= Cafe
+    fields = '__all__'
+    template_name = 'dashboard/updateinfo.html'
+    success_url = reverse_lazy('dashboard:manger')

@@ -24,7 +24,7 @@
                     </div>
                 </a>
                 <ul class="collapse submenu recent-submenu mini-recent-submenu list-unstyled show" id="dashboard" data-parent="#accordionExample">
-                    <li class="active">
+                    <li >
                         <a href={% url 'dashboard:manger' %}>Dashboard </a>
                     </li>
                     <li>
@@ -32,6 +32,9 @@
                     </li>
                     <li>
                         <a href={% url "shop:productlist" 'all' %}> Menu </a>
+                    </li>
+                    <li>
+                        <a href={% url "dashboard:updateinfo" 1 %}>Cafe Info </a>
                     </li>
                     
                 </ul>
