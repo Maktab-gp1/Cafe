@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
-    {% comment %} {% load notification %} {% endcomment %}
-    
-
+    <link href="https//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
@@ -12,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'user_profile/assets/img/favicon.ico' %}"/>
     <link href="{% static 'user_profile/assets/css/loader.css' %}" rel="stylesheet" type="text/css" />
     <script src="{% static 'user_profile/assets/js/loader.js' %}"></script>
-
+    <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{% static 'user_profile/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
@@ -216,9 +214,11 @@
     <!-- DataTable.js -->
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> 
-
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="{% static 'assets/vendor/chartist/dist/chartist.min.js' %}"></script>
+ <script src="{% static 'assets/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
 
     {% block pricing_script %}{% endblock pricing_script %}
-
+     <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
 </body>
 </html>
