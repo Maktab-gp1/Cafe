@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render
-from django.views.generic import  ListView
-from shop.models import Category, Product,Cafe
+from django.views.generic import ListView
+from shop.models import Category, Product, Cafe
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
@@ -25,7 +25,7 @@ class DashboardView(SuperUserRequiredMixin, View):
     template_name = 'dashboard/index.html'
 
     def get(self, request):
-
+        category = request.GET.get('category')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         selected_range = request.GET.get('range', 'month')
@@ -42,19 +42,25 @@ class DashboardView(SuperUserRequiredMixin, View):
             days = 99999
 
         reporting_params = {'days': days}
-
+        if category == 'All':
+            category = None
         if start_date and end_date:
-            start_date_obj = datetime.strptime(start_date, '%m/%d/%Y').date()
-            end_date_obj = datetime.strptime(end_date, '%m/%d/%Y').date()
+            start_date_obj = datetime.strptime(start_date, "%Y/%m/%d").date()
+            end_date_obj = datetime.strptime(end_date, "%Y/%m/%d").date()
             reporting_params = {
                 'start_at': start_date_obj, 'end_at': end_date_obj}
+        else:
+            start_date_obj = datetime.strptime('01/01/2024', '%m/%d/%Y').date()
+            end_date_obj = datetime.strptime('01/01/2025', '%m/%d/%Y').date()
 
         count, summ, time, hour = dict(), dict(), dict(), dict()
         mountain_elevation_data, mountain_elevation_data_time = list(), list()
         cat = Category.objects.all()
         for item in OrderItem.objects.all():
-            if item.order.id not in time:
-                time[item.order.id] = Order.objects.filter(id=item.order.id)
+            if start_date_obj <= item.order.created.date() <= end_date_obj:
+                if item.order.id not in time:
+                    time[item.order.id] = Order.objects.filter(
+                        id=item.order.id)
             count[item.product.name] = OrderItem.objects.filter(
                 product_id=item.product.id)
         for k, v in time.items():
@@ -65,10 +71,17 @@ class DashboardView(SuperUserRequiredMixin, View):
                     hour[k] = x.created.hour
         for k, v in count.items():
             for x in v:
-                if k in summ.keys():
-                    summ[k] += x.quantity
+                if category is not None:
+                    if x.product.category.name == category:
+                        if k in summ.keys():
+                            summ[k] += x.quantity
+                        else:
+                            summ[k] = x.quantity
                 else:
-                    summ[k] = x.quantity
+                    if k in summ.keys():
+                        summ[k] += x.quantity
+                    else:
+                        summ[k] = x.quantity
         for i in range(0, 25):
             mountain_elevation_data_time.append({"label": i, "y": 0})
             for k, v in hour.items():
@@ -180,8 +193,9 @@ class CategoryCreateView(SuperUserRequiredMixin, CreateView):
     template_name = 'dashboard/newcategory.html'
     success_url = reverse_lazy('dashboard:foods')
 
+
 class CafeInfoUpdateView(UpdateView):
-    model= Cafe
+    model = Cafe
     fields = '__all__'
     template_name = 'dashboard/updateinfo.html'
     success_url = reverse_lazy('dashboard:manger')

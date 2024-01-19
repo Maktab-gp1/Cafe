@@ -61,6 +61,16 @@
         </div>
         <button type="submit" class="btn btn-reddit my-3 btn-sm d-inline">Filter</button>
     </form>
+    <form action="" method="get" class="row justify-content-between">
+        <label for="category">Choose a category:</label>
+    <select name="category" id="category" class="form-control">
+        {% for cat in category %}
+        <option value="{{cat.name}}">{{cat.name}}</option>
+        {% endfor %}
+        <input class="btn btn-reddit my-3 btn-sm d-inline"  type="submit" value="Submit">
+
+    </select>
+    </form>
     </div>
     </div>
     <div class="d-flex justify-content-center p-1">
